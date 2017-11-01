@@ -33,7 +33,7 @@ class Board_View
     # Descirption: Prints the board state contained in the model hashtable
     #              asking the model for the information.
     #
-    # returns: void
+    # Returns: void
     ####################################################################
     def update()
           # Call @intersections methods to obtain a visulization of the game board
