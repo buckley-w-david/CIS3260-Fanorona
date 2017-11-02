@@ -11,32 +11,21 @@ class Board_View
     ####################################################################
     # Method: initialize
     #
-    # Descirption: - Initializes a the game
-    #              - Creates 2 instance of Players.
-    #              - Sets up the game board so the game can being
+    # Descirption: - Initializes the board_view
     #
     ####################################################################
-    def initialize()
-
-        # Class diagram says that the Board_View has Players... Two players will
-        # have to initialized somehow.
-        # @players ????
-
-        # Needs to initialize the board. Therefore some reference to the 'Intersections' class
-        # must exist
-        # @intersections ???
+    def initialize(newBoard)
+        @current_board = newBoard
     end
 
     ####################################################################
     # Method: update
     #
-    # Descirption: Prints the board state contained in the model hashtable
-    #              asking the model for the information.
+    # Descirption: Prints the current state of the model to the screen.
     #
-    # Returns: void
     ####################################################################
     def update()
-          # Call @intersections methods to obtain a visulization of the game board
+        # Loops through each corrdinate of the board and asks it what
+        # piece colour it has on it. print the piece colour to the screen.
     end
-
 end
