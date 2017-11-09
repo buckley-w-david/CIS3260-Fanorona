@@ -28,38 +28,73 @@ class Board_View
         # Loops through each corrdinate of the board and asks it what
         # piece colour it has on it. print the piece colour to the screen.
 
-        conenction = "\\"
+        # A line connecting two spaces. This gets printed after a '|' in rows
+        # that contain only these connecting lines (rows that cannot contain pieces)
+        connection = "\\"
+
         # Board size is 9x5
-        for i in 8..0 do
+        for i in (8).downto(0) do
             # If i is even, print number, and the pieces on the board.
-            # Else, print a row of conenecting lines
+            # Else: print a row of connecting lines
             if (i%2 == 0)
-                puts ("#{i/2}")
+                # Print the number
+                print ("#{i/2} ")
+
                 # Print the pieces on the board
                 for j in 0..8 do
-                    puts "-"
-                    piece = current_board.board_hash("#{i,j}") 
-                    if (piece == :black)
-                        puts "x"
-                    elsif (piece == :white)
-                        puts "o"
-                    else
-                        puts "+"
+                    
+                    # piece = current_board.board_hash("#{i,j}") 
+                    # if (piece == :black)
+                    #     print "x"
+                    #     elsif (piece == :white)
+                    #         print "o"
+                    #     else
+                    #         print "+"
+                    #     end
+                    # end
+                    # 
+                    print "+"
+
+                    if (j != 8)
+                        print "-"
                     end
                 end
-
+                print "\n"
+            # print the connecting lines
             else
+                print "  "
                 for j in 0..8 do
-                    puts("|#{conenction}")
-                    if (j != 8)
-                        if (conenction == "\\")
-                            conenction == "/"
+                    # Toggle the diagonal connecting lines.
+                    # these lines do no toggle the final
+                    # time that the are printed in a row.
+                    if (j < 7)
+                        if (connection == "\\")
+                            connection = "/"
                         else
-                            conenction == "\\"
+                            connection = "\\"
                         end
                     end
+
+                    # print a pair of connecting lines.
+                    # Rows do not end with a diagnol
+                    # connecting line. Print only 
+                    # a "|" when that occurs
+                    if (j != 8)
+                        print "|#{connection}"
+                    else
+                        print "|"
+                    end
                 end
+                print "\n"
             end
         end
+
+        # Print the numbers column numbers at
+        # the bottom of the board.
+        print " "
+        for i in 0..8
+            print " #{i}"
+        end
+        print "\n"
     end
 end
