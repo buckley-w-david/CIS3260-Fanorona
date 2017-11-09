@@ -5,6 +5,9 @@
 # Description:  The game baord and it's functions.
 ####################################################################
 
+require 'pp'
+
+
 class Board
 
 
@@ -233,3 +236,4 @@ class Board
 
 
 end
+
