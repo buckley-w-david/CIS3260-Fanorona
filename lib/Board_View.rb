@@ -2,7 +2,7 @@
 # Class: Board_View
 # Date Created: Oct. 31 2017
 #
-# Descirption:  Interface that visulizes the Board for the user.
+# Description:  Interface that visulizes the Board for the user.
 ####################################################################
 
 class Board_View
@@ -11,7 +11,7 @@ class Board_View
     ####################################################################
     # Method: initialize
     #
-    # Descirption: - Initializes the board_view
+    # Description: - Initializes the board_view
     # 
     # Arguments:   - newBoard: A reference to an instance of the Board class
     #
@@ -23,7 +23,7 @@ class Board_View
     ####################################################################
     # Method: update
     #
-    # Descirption: Prints the current state of the model to the screen.
+    # Description: Prints the current state of the model to the screen.
     #
     ####################################################################
     def update()
