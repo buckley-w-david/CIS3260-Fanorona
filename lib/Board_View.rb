@@ -47,12 +47,11 @@ class Board_View
                     
                     piece = current_board.board_hash("#{j},#{(i/2)}") 
                     if (piece == :black)
-                        print "x"
-                        elsif (piece == :white)
-                            print "o"
-                        else
-                            print "+"
-                        end
+                            print "x"
+                    elsif (piece == :white)
+                        print "o"
+                    else
+                        print "+"
                     end
                      
                     if (j != 8)
