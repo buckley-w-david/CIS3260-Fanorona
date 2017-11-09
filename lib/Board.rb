@@ -12,6 +12,7 @@ class Board
     # Method: initialize
     #
     # Description: - Initializes the board
+    # A string position is when a piece can move diagonally from that position
     #
     ####################################################################
     def initialize()
@@ -176,7 +177,7 @@ class Board
     #
     # Returns: Symbol A,W,P,N
     ####################################################################
-    def is_approach(new_position)
+    def is_approach(new_position, initial_position)
         
     end
     ####################################################################
@@ -185,11 +186,10 @@ class Board
     # Description: determines if a move is a withdraw
     #
     # Arguments: new_position: New Position a piece 
-    # Note spec only has one param
     #
     # Returns: Bool
     ####################################################################
-    def is_withdraw(new_position)
+    def is_withdraw(new_position, iniital_postion)
         
     end
                         
