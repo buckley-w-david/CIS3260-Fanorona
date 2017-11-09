@@ -2,7 +2,7 @@
 # Class: Board_View
 # Date Created: Oct. 31 2017
 #
-# Descirption:  Interface that visulizes Intersections for the user.
+# Descirption:  Interface that visulizes the Board for the user.
 ####################################################################
 
 class Board_View
@@ -12,6 +12,8 @@ class Board_View
     # Method: initialize
     #
     # Descirption: - Initializes the board_view
+    # 
+    # Arguments:   - newBoard: A reference to an instance of the Board class
     #
     ####################################################################
     def initialize(newBoard)
@@ -43,23 +45,22 @@ class Board_View
                 # Print the pieces on the board
                 for j in 0..8 do
                     
-                    # piece = current_board.board_hash("#{i,j}") 
-                    # if (piece == :black)
-                    #     print "x"
-                    #     elsif (piece == :white)
-                    #         print "o"
-                    #     else
-                    #         print "+"
-                    #     end
-                    # end
-                    # 
-                    print "+"
-
+                    piece = current_board.board_hash("#{j},#{(i/2)}") 
+                    if (piece == :black)
+                        print "x"
+                        elsif (piece == :white)
+                            print "o"
+                        else
+                            print "+"
+                        end
+                    end
+                     
                     if (j != 8)
                         print "-"
                     end
                 end
                 print "\n"
+
             # print the connecting lines
             else
                 print "  "
