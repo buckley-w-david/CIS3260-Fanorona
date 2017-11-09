@@ -10,7 +10,6 @@ require 'pp'
 
 class Board
 
-
     ####################################################################
     # Method: initialize
     #
@@ -20,11 +19,113 @@ class Board
     ####################################################################
     def initialize()
         # Need to initialize board hash to starting game position
-        @board_hash = Hash.new()
+        # the 0,0 for the board is in the bottom left of the board.
+        @board_hash = {
+            #black pieces
+            '0,4' => :Black,
+            '1,4' => :Black,
+            '2,4' => :Black,
+            '3,4' => :Black,
+            '4,4' => :Black,
+            '5,4' => :Black,
+            '6,4' => :Black,
+            '7,4' => :Black,
+            '8,4' => :Black,
+            '0,3' => :Black,
+            '1,3' => :Black,
+            '2,3' => :Black,
+            '3,3' => :Black,
+            '4,3' => :Black,
+            '5,3' => :Black,
+            '6,3' => :Black,
+            '7,3' => :Black,
+            '8,3' => :Black,
+            '0,2' => :Black,
+            '2,2' => :Black,
+            '5,2' => :Black,
+            '7,2' => :Black,
+
+            # white pieces
+            '0,1' => :White,
+            '1,1' => :White,
+            '2,1' => :White,
+            '3,1' => :White,
+            '4,1' => :White,
+            '5,1' => :White,
+            '6,1' => :White,
+            '7,1' => :White,
+            '8,1' => :White,
+            '0,0' => :White,
+            '1,0' => :White,
+            '2,0' => :White,
+            '3,0' => :White,
+            '4,0' => :White,
+            '5,0' => :White,
+            '6,0' => :White,
+            '7,0' => :White,
+            '8,0' => :White,
+            '1,2' => :White,
+            '3,2' => :White,
+            '6,2' => :White,
+            '8,2' => :White,
+            
+            # the empty middle space
+            '4,2' => :Empty
+            
+        }
+
 
         # initialize Weak and strong positions List
-        @weak       = Array.new(10) { }
-        @strong     = Array.new(10) { }
+        @weak = [
+            '0,4'
+            '0,2'
+            '0,0'
+            '1,3'
+            '1,1'
+            '2,4'
+            '2,2'
+            '2,0'
+            '3,3'
+            '3,1'
+            '4,4'
+            '4,2'
+            '4,0'
+            '5,3'
+            '5,1'
+            '6,4'
+            '6,2'
+            '6,0'
+            '7,3'
+            '7,1'
+            '8,4'
+            '8,2'
+            '8,0'
+        ]
+
+        @strong = [
+            '0,3'
+            '0,1'
+            '1,4'
+            '1,2'
+            '1,0'
+            '2,3'
+            '2,1'
+            '3,4'
+            '3,2'
+            '3,0'
+            '4,3'
+            '0,3'
+            '0,1'
+            '1,4'
+            '1,2'
+            '1,0'
+            '2,3'
+            '2,1'
+            '3,4'
+            '3,2'
+            '3,0'
+            '4,3'
+        ]
 
         @last_direction = nil
     end
@@ -211,7 +312,7 @@ class Board
     ####################################################################
     # Method: update_board
     #
-    # Description: Updates the board with the affected pieces given
+    # Description: Updates the board hash with the affected pieces given
     #
     # Arguments: affected_pieces: a list of affected pieces List[][3]
     #
@@ -230,10 +331,11 @@ class Board
     # Returns:     True :  If the direction changed
     #              False:  Otherwise
     ####################################################################
-    def set_last_direction()
+    def set_last_direction(new_position, initial_position)
         
     end
 
-
 end
 
+testBoard = Board.new
+p testBoard
