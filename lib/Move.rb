@@ -2,7 +2,7 @@
 # Class: Move
 # Date Created: Nov. 1 2017
 #
-# Descirption: Methods to determine the effect each type
+# Description: Methods to determine the effect each type
 #              of move has on actual board. After determining the efftect
 #              that the move will have, The Intersections class uses
 #              them to actually update the board.
@@ -15,7 +15,7 @@ class Move
     ####################################################################
     # Method: initialize
     #
-    # Descirption: Initializes a Move class.
+    # Description: Initializes a Move class.
     #
     ####################################################################
     def initialize(board)
@@ -27,7 +27,7 @@ class Move
     ####################################################################
     # Method: paika
     #
-    # Descirption: Obtains an array of all the pieces affected by a paika move.
+    # Description: Obtains an array of all the pieces affected by a paika move.
     #
     #
     # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos])
@@ -49,7 +49,7 @@ class Move
     ####################################################################
     # Method: withdrawl
     #
-    # Descirption: Obtains an array of all the pieces affected by a withdrawl move.
+    # Description: Obtains an array of all the pieces affected by a withdrawl move.
     #
     #
     # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos])
@@ -72,7 +72,7 @@ class Move
     ####################################################################
     # Method: approach
     #
-    # Descirption: Obtains an array of all the pieces affected by a approach move.
+    # Description: Obtains an array of all the pieces affected by a approach move.
     #
     #
     # Arguments:   initial    : A postion that a piece is moving from. (int array [xPos,yPos])

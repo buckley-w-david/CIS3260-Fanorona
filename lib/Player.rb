@@ -2,7 +2,7 @@
 # Class: Player
 # Date Created: Oct. 31 2017
 #
-# Descirption: Stores information about the user's currently
+# Description: Stores information about the user's currently
 #              playing the game.
 ####################################################################
 
@@ -12,7 +12,7 @@ class Player
     ####################################################################
     # Method: initialize
     #
-    # Descirption: Initializes a user.
+    # Description: Initializes a user.
     #
     # Arguments:   new_name: The Name of the Player (String)
     #              newColour: The colour of the player (Symbol)
@@ -38,13 +38,8 @@ class Player
     ####################################################################
     # Method: set_name
     #
-    # Descirption: Asks the user to input a name. The set the name.
-    #              ***** NOTE: This is in the document, but Nik thinks *****
-    #              *********** it makes more sense to prompt outside *******
-    #              *********** of the class and use the instructor *********
+    # Description: Asks the user to input a name. The set the name.
     #
-    # Arguments:   new_name: The Name of the Player (String)
-    #              newColour: The colour of the player (Symbol)
     ####################################################################
     def set_name()
         # @name = Prompt for Name
@@ -56,7 +51,7 @@ class Player
     ####################################################################
     # Method: do_move
     #
-    # Descirption:
+    # Description:
     #
     # returns: - :A - If the completed move was an Approaching move
     #          - :W - If the completed move was a Withdrawling move
@@ -116,7 +111,7 @@ class Player
     ####################################################################
     # Method: prompt_for_postion
     #
-    # Descirption:
+    # Description:
     #  prompts user for input and validates, returns as array format.
     #
     # returns: - Integer array with 2 elements.
