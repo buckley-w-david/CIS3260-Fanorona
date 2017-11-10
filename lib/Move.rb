@@ -2,8 +2,8 @@
 # Class: Move
 # Date Created: Nov. 1 2017
 #
-# Descirption: Methods to determine the effect each type
-#              of move has on actual board. After determining the efftect 
+# Description: Methods to determine the effect each type
+#              of move has on actual board. After determining the efftect
 #              that the move will have, The Intersections class uses
 #              them to actually update the board.
 ####################################################################
@@ -15,23 +15,23 @@ class Move
     ####################################################################
     # Method: initialize
     #
-    # Descirption: Initializes a Move class.
+    # Description: Initializes a Move class.
     #
     ####################################################################
-    def initialize()
+    def initialize(board)
 
-    	# No instance variables given in the design document.
-        # is an initialize method requred?
+        # A current representation of  the board
+        @board_hash     = board
     end
 
     ####################################################################
     # Method: paika
     #
-    # Descirption: Obtains an array of all the pieces affected by a paika move.
-    # 
+    # Description: Obtains an array of all the pieces affected by a paika move.
     #
-    # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos]) 
-    #              next       : A position that a piece is moving to.  (int array [xPos,yPos]) 
+    #
+    # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos])
+    #              next       : A position that a piece is moving to.  (int array [xPos,yPos])
     #
     # Returns:     A list of all the pieces affected by a paika move in the form:
     #              [[xPos, yPos, newIntersectionState]... ]
@@ -43,17 +43,17 @@ class Move
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
     def paika(initial, next)
-    	
+
     end
 
     ####################################################################
     # Method: withdrawl
     #
-    # Descirption: Obtains an array of all the pieces affected by a withdrawl move.
-    # 
+    # Description: Obtains an array of all the pieces affected by a withdrawl move.
     #
-    # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos]) 
-    #              next       : A position that a piece is moving to.  (int array [xPos,yPos]) 
+    #
+    # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos])
+    #              next       : A position that a piece is moving to.  (int array [xPos,yPos])
     #
     # Returns:     A list of all the pieces affected by a withdrawl move in the form:
     #              [[xPos, yPos, newIntersectionState]... ]
@@ -72,11 +72,11 @@ class Move
     ####################################################################
     # Method: approach
     #
-    # Descirption: Obtains an array of all the pieces affected by a approach move.
-    # 
+    # Description: Obtains an array of all the pieces affected by a approach move.
     #
-    # Arguments:   initial    : A postion that a piece is moving from. (int array [xPos,yPos]) 
-    #              next       : A position that a piece is moving to.  (int array [xPos,yPos]) 
+    #
+    # Arguments:   initial    : A postion that a piece is moving from. (int array [xPos,yPos])
+    #              next       : A position that a piece is moving to.  (int array [xPos,yPos])
     #
     # Returns:     A list of all the pieces affected by a approach move in the form:
     #              [[xPos, yPos, newIntersectionState]... ]
@@ -91,4 +91,3 @@ class Move
 
     end
 end
-
