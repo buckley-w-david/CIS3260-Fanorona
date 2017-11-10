@@ -18,10 +18,10 @@ class Move
     # Description: Initializes a Move class.
     #
     ####################################################################
-    def initialize(board)
+    def initialize(current_board)
 
         # A current representation of  the board
-        @board_hash     = board
+        @board_hash     = current_board
     end
 
     ####################################################################
@@ -42,8 +42,8 @@ class Move
     #                    - "B" if the intersection now have a Black piece on it
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
-    def paika(initial, next)
-
+    def paika(initial, next_position)
+    	
     end
 
     ####################################################################
@@ -64,7 +64,7 @@ class Move
     #                    - "B" if the intersection now have a Black piece on it
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
-    def withdrawl(initial, next)
+    def withdrawl(initial, next_position)
 
     end
 
@@ -87,7 +87,7 @@ class Move
     #                    - "B" if the intersection now have a Black piece on it
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
-    def approach()
+    def approach(initial, next_position)
 
     end
 end
