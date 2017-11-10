@@ -453,21 +453,21 @@ class Board
         pos_diff_scaled[1] = pos_diff[1] == 0 ? 0 : pos_diff[1]/pos_diff[1].abs
 
         case pos_diff_scaled
-        when [1,0]
+        when [0,1]
             return :N
         when [1,1]
             return :NE
-        when [0,1]
+        when [1,0]
             return :E
-        when [-1,1]
+        when [1,-1]
             return :SE
-        when [-1,0]
+        when [0,-1]
             return :S
         when [-1,-1]
             return :SW
-        when [0,-1]
+        when [-1,0]
             return :W
-        when [1,-1]
+        when [-1,1]
             return :NW
         end
 
@@ -511,22 +511,23 @@ class Board
         pos_adjustment = []
         case direction
         when :N
-            pos_adjustment =  [1,0]
+            pos_adjustment =  [0,1]
         when :NE
             pos_adjustment =  [1,1]
         when :E
-            pos_adjustment =  [0,1]
+            pos_adjustment =  [1,0]
         when :SE
-            pos_adjustment =  [-1,1]
+            pos_adjustment =  [1,-1]
         when :S
-            pos_adjustment =  [-1,0]
+            pos_adjustment =  [0,-1]
         when :SW
             pos_adjustment =  [-1,-1]
         when :W
-            pos_adjustment =  [0,-1]
+            pos_adjustment =  [-1,0]
         when :NW
-            pos_adjustment =  [1,-1]
+            pos_adjustment =  [-1,1]
         end
+
         new_x = new_position[0] + pos_adjustment[0]
         new_y = new_position[1] + pos_adjustment[1]
         adj_piece_in_dir = "#{new_x}, #{new_y}"
@@ -555,21 +556,21 @@ class Board
         pos_adjustment = []
         case direction
         when :N
-            pos_adjustment =  [1,0]
+            pos_adjustment =  [0,1]
         when :NE
             pos_adjustment =  [1,1]
         when :E
-            pos_adjustment =  [0,1]
+            pos_adjustment =  [1,0]
         when :SE
-            pos_adjustment =  [-1,1]
+            pos_adjustment =  [1,-1]
         when :S
-            pos_adjustment =  [-1,0]
+            pos_adjustment =  [0,-1]
         when :SW
             pos_adjustment =  [-1,-1]
         when :W
-            pos_adjustment =  [0,-1]
+            pos_adjustment =  [-1,0]
         when :NW
-            pos_adjustment =  [1,-1]
+            pos_adjustment =  [-1,1]
         end
 
         # if new_position is at an empty space  
@@ -601,7 +602,7 @@ class Board
     # Returns:     True :  If an approach move is available
     #              False:  Otherwise
     ####################################################################
-    def capture_avaliable()
+    def capture_avaliable(colour)
         
     end
 
