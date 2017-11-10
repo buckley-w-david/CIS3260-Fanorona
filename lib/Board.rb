@@ -5,8 +5,10 @@
 # Description:  The game baord and it's functions.
 ####################################################################
 
-class Board
+require_relative "move"
 
+class Board
+    
     ####################################################################
     # Method: initialize
     #
@@ -19,52 +21,52 @@ class Board
         # the 0,0 for the board is in the bottom left of the board.
         @board_hash = {
             #black pieces
-            '0,4' => :Black,
-            '1,4' => :Black,
-            '2,4' => :Black,
-            '3,4' => :Black,
-            '4,4' => :Black,
-            '5,4' => :Black,
-            '6,4' => :Black,
-            '7,4' => :Black,
-            '8,4' => :Black,
-            '0,3' => :Black,
-            '1,3' => :Black,
-            '2,3' => :Black,
-            '3,3' => :Black,
+            '4,0' => :Black,
+            '4,1' => :Black,
+            '4,2' => :Black,
             '4,3' => :Black,
-            '5,3' => :Black,
-            '6,3' => :Black,
-            '7,3' => :Black,
-            '8,3' => :Black,
-            '0,2' => :Black,
+            '4,4' => :Black,
+            '4,5' => :Black,
+            '4,6' => :Black,
+            '4,7' => :Black,
+            '4,8' => :Black,
+            '3,0' => :Black,
+            '3,1' => :Black,
+            '3,2' => :Black,
+            '3,3' => :Black,
+            '3,4' => :Black,
+            '3,5' => :Black,
+            '3,6' => :Black,
+            '3,7' => :Black,
+            '3,8' => :Black,
+            '2,0' => :Black,
             '2,2' => :Black,
-            '5,2' => :Black,
-            '7,2' => :Black,
+            '2,5' => :Black,
+            '2,7' => :Black,
 
             # white pieces
-            '0,1' => :White,
-            '1,1' => :White,
-            '2,1' => :White,
-            '3,1' => :White,
-            '4,1' => :White,
-            '5,1' => :White,
-            '6,1' => :White,
-            '7,1' => :White,
-            '8,1' => :White,
-            '0,0' => :White,
             '1,0' => :White,
-            '2,0' => :White,
-            '3,0' => :White,
-            '4,0' => :White,
-            '5,0' => :White,
-            '6,0' => :White,
-            '7,0' => :White,
-            '8,0' => :White,
+            '1,1' => :White,
             '1,2' => :White,
-            '3,2' => :White,
-            '6,2' => :White,
-            '8,2' => :White,
+            '1,3' => :White,
+            '1,4' => :White,
+            '1,5' => :White,
+            '1,6' => :White,
+            '1,7' => :White,
+            '1,8' => :White,
+            '0,0' => :White,
+            '0,1' => :White,
+            '0,2' => :White,
+            '0,3' => :White,
+            '0,4' => :White,
+            '0,5' => :White,
+            '0,6' => :White,
+            '0,7' => :White,
+            '0,8' => :White,
+            '2,1' => :White,
+            '2,3' => :White,
+            '2,6' => :White,
+            '2,8' => :White,
             
             # the empty middle space
             '4,2' => :Empty
@@ -73,7 +75,7 @@ class Board
 
 
         # initialize Weak and strong positions List
-        @weak = [
+        @strong = [
             '0,4',
             '0,2',
             '0,0',
@@ -99,7 +101,7 @@ class Board
             '8,0'
         ]
 
-        @strong = [
+        @weak = [
             '0,3',
             '0,1',
             '1,4',
@@ -125,6 +127,7 @@ class Board
         ]
 
         @last_direction = nil
+        @affected_pieces = Move.new(@board_hash)
     end
 
     ####################################################################
@@ -142,7 +145,36 @@ class Board
     #          - :N if the attempted move was not valid move
     ####################################################################
     def action(new_position, initial_position)
-        
+        if new_position[0] == '-' && new_position[1] == '-' then
+            @last_direction = nil;
+            return :E
+        end
+
+        if validate(new_position, initial_position) then 
+            return :N
+        end
+
+        move_type = move_type(new_position, initial_position)
+        move = Move.new(@board_hash)
+        @affected_pieces = nil
+        case move_type 
+            when :N 
+                return :N
+
+            when :A 
+                @affected_pieces = move.approach(initial_position, new_position)
+
+            when :W 
+                @affected_pieces = move.withdraw(initial_position, new_position)
+
+            when :P 
+                @affected_pieces = move.paika(initial_position, new_position)
+        end
+
+        update_board(@affected_pieces)
+        set_last_direction(new_position, initial_position)
+        return move_type;
+
     end
 
     ####################################################################
@@ -163,7 +195,7 @@ class Board
     ####################################################################
     # Method: validate
     #
-    # Description: Determines if a move from the iniital_postion to 
+    # Description: Determines if a move from the initial_postion to 
     #              the new_positon is valid.
     # 
     #
@@ -179,7 +211,20 @@ class Board
         # validate_piece()
         # validate_neighbours()
         # validate_direction() 
-        return false;
+
+        if !validate_piece(initial_position) then
+            return false;
+        end
+
+        if !validate_neighbors(new_position, initial_position) then
+            return false;
+        end
+
+        if !validate_direction(new_position, initial_position) then 
+            return false
+        end
+
+        return true;
     end
 
     ####################################################################
@@ -194,6 +239,8 @@ class Board
     #              False:  Otherwise
     ####################################################################
     def validate_piece(initial_position)
+        pos_as_str = "#{initial_position[0]},#{initial_position[1]}"
+        return @board_hash[pos_as_str] == :Black || @board_hash[pos_as_str] == :White
     end
 
     ####################################################################
@@ -238,6 +285,11 @@ class Board
     ####################################################################
     def validate_direction(new_position, initial_position)
         #calls find_direction()
+        if find_direction(new_position, initial_position) == @last_direction
+            return true;
+        end
+
+        return false;
     end
 
     ####################################################################
@@ -250,8 +302,37 @@ class Board
     #
     # Returns: Symbol() either N,S,E,W,NE,SE,SW,NW
     ####################################################################
-    def find_direction(new_position, initial_postion)
+    def find_direction(new_position, initial_position)
+        pos_diff = [
+            new_position[0] - initial_position[0], 
+            new_position[1] - initial_position[1]
+        ]
+        
+        # Need to scale the value down to eliminate extra cases to change. e.g. moving from position 2,2 to 0,0
+        pos_diff_scaled = []
+        pos_diff_scaled[0] = pos_diff[0] == 0 ? 0 : pos_diff[0]/pos_diff[0].abs
+        pos_diff_scaled[1] = pos_diff[1] == 0 ? 0 : pos_diff[1]/pos_diff[1].abs
 
+        case pos_diff_scaled
+        when [1,0]
+            return :N
+        when [1,1]
+            return :NE
+        when [0,1]
+            return :E
+        when [-1,1]
+            return :SE
+        when [-1,0]
+            return :S
+        when [-1,-1]
+            return :SW
+        when [0,-1]
+            return :W
+        when [1,-1]
+            return :NW
+        end
+
+        return nil
     end
 
     ####################################################################
@@ -265,7 +346,15 @@ class Board
     # Returns: Symbol A,W,P,N
     ####################################################################
     def move_type(new_position, initial_position)
-        
+        if is_approach(new_position, initial_position) then
+            return :A
+        elsif is_withdraw(new_position, initial_position) then
+            return :W
+        elsif capture_avaliable() then
+            return :N
+        else 
+            return :P
+        end
     end
 
     ####################################################################
@@ -279,8 +368,40 @@ class Board
     # Returns: Symbol A,W,P,N
     ####################################################################
     def is_approach(new_position, initial_position)
-        
+        direction = find_direction(new_position, initial_position)
+        pos_adjustment = []
+        case direction
+        when :N
+            pos_adjustment =  [1,0]
+        when :NE
+            pos_adjustment =  [1,1]
+        when :E
+            pos_adjustment =  [0,1]
+        when :SE
+            pos_adjustment =  [-1,1]
+        when :S
+            pos_adjustment =  [-1,0]
+        when :SW
+            pos_adjustment =  [-1,-1]
+        when :W
+            pos_adjustment =  [0,-1]
+        when :NW
+            pos_adjustment =  [1,-1]
+        end
+        new_x = new_position[0] + pos_adjustment[0]
+        new_y = new_position[1] + pos_adjustment[1]
+        adj_piece_in_dir = "#{new_x}, #{new_y}"
+
+        initial_position_as_str = "#{initial_position[0]},#{initial_position[1]}"
+        initial_position_color = @board_hash[initial_position_as_str]
+
+        if @board_hash[adj_piece_in_dir] != initial_position_color && @board_hash[adj_piece_in_dir] != :Empty then
+            return true
+        end
+
+        return false
     end
+
     ####################################################################
     # Method: is_withdraw
     #
@@ -290,8 +411,46 @@ class Board
     #
     # Returns: Bool
     ####################################################################
-    def is_withdraw(new_position, iniital_postion)
+    def is_withdraw(new_position, initial_position)
+        direction = find_direction(new_position, initial_position)
+        pos_adjustment = []
+        case direction
+        when :N
+            pos_adjustment =  [1,0]
+        when :NE
+            pos_adjustment =  [1,1]
+        when :E
+            pos_adjustment =  [0,1]
+        when :SE
+            pos_adjustment =  [-1,1]
+        when :S
+            pos_adjustment =  [-1,0]
+        when :SW
+            pos_adjustment =  [-1,-1]
+        when :W
+            pos_adjustment =  [0,-1]
+        when :NW
+            pos_adjustment =  [1,-1]
+        end
+
+        # if new_position is at an empty space  
+        # and if 1 space in the opposite direction of the inital_position is the opponents colour
+        # it is a withdraw
+        adj_x = initial_position[0] - pos_adjustment[0]
+        adj_y = initial_position[1] - pos_adjustment[1]
+        check_pos_as_str =  "#{adj_x},#{adj_y}" #This is the string representation of position that is 2 spaces away from new
         
+        initial_position_as_str = "#{initial_position[0]},#{initial_position[1]}"
+        initial_position_color = @board_hash[initial_position_as_str]
+        new_position_as_str = "#{new_position[0]},#{new_position[1]}"
+
+        if @board_hash[check_pos_as_str] != :Empty && @board_hash[check_pos_as_str] != initial_position_color && 
+            @board_hash[new_position_as_str] == :Empty
+
+            return true;
+        end
+
+        return false
     end
                         
     ####################################################################
@@ -306,6 +465,7 @@ class Board
     def capture_avaliable()
         
     end
+
     ####################################################################
     # Method: update_board
     #
@@ -316,7 +476,13 @@ class Board
     # Returns:     Void
     ####################################################################
     def update_board(affected_pieces)
-        
+        for position in affected_pieces
+            # position[0] is the x coord 
+            # position[1] is the y coord
+            # position[2] is the changed value at the position x,y
+            position_as_str = "#{position[0]},#{position[1]}"
+            @board_hash[position_as_str] = position[2]
+        end
     end
 
     ####################################################################
@@ -329,9 +495,17 @@ class Board
     #              False:  Otherwise
     ####################################################################
     def set_last_direction(new_position, initial_position)
-        
+        @last_direction = find_direction(new_position, last_direction)
     end
 end
 
 testBoard = Board.new
-p testBoard.action(['-','-'],[])
+
+p testBoard.find_direction([1,1],[2,2])
+p testBoard.find_direction([2,1],[2,2])
+p testBoard.find_direction([3,1],[2,2])
+p testBoard.find_direction([3,2],[2,2])
+p testBoard.find_direction([3,3],[2,2])
+p testBoard.find_direction([4,4],[2,2])
+p testBoard.is_approach([4,2], [1,3]);
+p testBoard.is_withdraw([4,2], [1,3]);
