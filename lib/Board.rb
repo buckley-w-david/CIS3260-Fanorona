@@ -46,7 +46,7 @@ class Board
             '7,2' => :Black,
 
             # white pieces
-            '0,1' => :White,
+            '0,0' => :White,
             '1,1' => :White,
             '2,1' => :White,
             '3,1' => :White,
@@ -76,55 +76,56 @@ class Board
 
 
         # initialize Weak and strong positions List
-        @weak = [
-            '0,4',
-            '0,2',
+        @strong = [
             '0,0',
-            '1,3',
+            '0,2',
+            '0,4',
             '1,1',
-            '2,4',
-            '2,2',
+            '1,3',
             '2,0',
-            '3,3',
+            '2,2',
+            '2,4',
             '3,1',
-            '4,4',
-            '4,2',
+            '3,3',
             '4,0',
-            '5,3',
+            '4,2',
+            '4,4',
             '5,1',
-            '6,4',
-            '6,2',
+            '5,3',
             '6,0',
-            '7,3',
+            '6,2',
+            '6,4',
             '7,1',
-            '8,4',
+            '7,3',
+            '8,0',
             '8,2',
-            '8,0'
+            '8,4'
+
         ]
 
-        @strong = [
-            '0,3',
+        @weak = [
             '0,1',
-            '1,4',
-            '1,2',
-            '1,0',
-            '2,3',
-            '2,1',
-            '3,4',
-            '3,2',
-            '3,0',
-            '4,3',
             '0,3',
-            '0,1',
-            '1,4',
-            '1,2',
             '1,0',
-            '2,3',
+            '1,2',
+            '1,4',
             '2,1',
-            '3,4',
-            '3,2',
+            '2,3',
             '3,0',
+            '3,2',
+            '3,4',
+            '4,1',
             '4,3',
+            '5,0',
+            '5,2',
+            '5,4',
+            '6,1',
+            '6,3',
+            '7,0',
+            '7,2',
+            '7,4',
+            '8,1',
+            '8,3'
         ]
 
         @last_direction = nil
@@ -157,10 +158,14 @@ class Board
     # Arguments: - opponent_colour: A symbol of either :symbol_1 or :symbol_2
     #
     # Returns: True : If no pieces of opponent_colour are found on the board.
-    #          Flase: Otherwise
+    #          False: Otherwise
     ####################################################################
     def count_opponent(opponent_colour)
+        #Check if opponents colour exists on the board
+        #Returns true or false based on if opponent_colour is a value
+        return @board_hash.has_value?(opponent_colour)
     end
+
 
 
     ####################################################################
@@ -210,23 +215,156 @@ class Board
     # Returns: True : If the selected position is valid
     #          False: Otherwise
     ####################################################################
-    def validate_neighbors(new_position, initial_position)
-        
-        # var = get_neighbours()
+    def validate_neighbours(new_position, initial_position)
+        var = get_neighbours()
         # if newPosition is in var, move is valid
+        return var.include?(new_position)
+
     end
 
     ####################################################################
-    # Method: get_neighbors
+    # Method: get_neighbours
     #
-    # Description: Based on strength  returns a list of all possible locations to move
+    # Description: Based on strength returns a list of all possible locations to move
     #
     # Arguments: initial_position: Position a piece 
     #
-    # Returns: List[][2] the list of moves that are valid
+    # Returns: List[][2], the list of moves that are valid
     ####################################################################
-    def get_neighbors(initial_position)
+    def get_neighbours(initial_position)
+        #check colour of initial position
+        #change incoming inital_position to a string
+        pos_as_str = "#{initial_position[0]},#{initial_position[1]}"
+        #check if initial_position is a strong or weak position
+        puts "Current position:"
+        puts initial_position
+        puts "Current position as a string:"
+        puts pos_as_str
+        puts "Current colour:"
+        current_colour = @board_hash[pos_as_str]
+        puts current_colour
 
+        strong = @strong.include?(pos_as_str)
+        weak = @weak.include?(pos_as_str)
+        x_pos = initial_position[0]
+        y_pos = initial_position[1]
+        #if position is weak, return weak positions
+        puts "Is the current position strong?"
+        p strong
+        if weak then
+            adj_positions = [
+                #North: +1, 0
+                [x_pos + 1, y_pos],
+                #East: 0, +1
+                [x_pos, y_pos +1],
+                #South: -1, 0
+                [x_pos - 1, y_pos],
+                #West: 0, -1
+                [x_pos, y_pos - 1],
+            ]
+            $i = 0
+            $num = 4
+            #String array that holds all adjacent positions to intial position
+            adj_pos_str_array = Array[]
+            #String array that holds all empty adjacent positions to initial position
+            empty_pos_str_array = Array[]
+
+            puts "Adjacent possible neighbours"
+            #Get adjacent positions and save them in a string array
+            #So they can used with @board_hash
+            while $i < $num  do
+               #Format adjacent positions
+               adj_pos_as_str = "#{adj_positions[$i]}"
+               adj_pos_as_str.slice! "["
+               adj_pos_as_str.slice! " "
+               adj_pos_as_str.slice! "]"
+               #Push current string position into string array
+               adj_pos_str_array.push(adj_pos_as_str)
+               #Check contents of position, if empty save to array of empty positions
+                colour = @board_hash[adj_pos_str_array[$i]]
+                if colour == :Empty
+                    empty_pos_str_array.push(adj_pos_str_array[$i])
+                end  
+               $i +=1
+            end
+
+            puts "All positions around initial piece in an array:"
+            puts adj_pos_str_array
+            puts "END"
+
+            puts "All empty positions around initial piece in an array:"
+            puts empty_pos_str_array
+            puts "END"
+
+
+            potential_neighbours = [
+                [empty_pos_str_array[0].chars.first,empty_pos_str_array[0].chars.last]
+            ]
+
+            return potential_neighbours 
+        elsif strong
+            adj_positions = [
+                #North: +1, 0
+                [x_pos + 1, y_pos],
+                #NorthEast: +1, +1
+                [x_pos + 1, y_pos +1],
+                #East: 0, +1
+                [x_pos, y_pos +1],
+                #SouthEast: -1, +1
+                [x_pos - 1, y_pos + 1],
+                #South: -1, 0
+                [x_pos - 1, y_pos],
+                #SouthWest: -1, -1
+                [x_pos - 1, y_pos - 1],
+                #West: 0, -1
+                [x_pos, y_pos - 1],
+                #NorthWest: +1, -1
+                [x_pos + 1, y_pos - 1]
+            ]
+
+            $i = 0
+            $num = 8
+            #String array that holds all adjacent positions to intial position
+            adj_pos_str_array = Array[]
+            #String array that holds all empty adjacent positions to initial position
+            empty_pos_str_array = Array[]
+
+            puts "Adjacent possible neighbours"
+            #Get adjacent positions and save them in a string array
+            #So they can used with @board_hash
+            while $i < $num  do
+               #Format adjacent positions
+               adj_pos_as_str = "#{adj_positions[$i]}"
+               adj_pos_as_str.slice! "["
+               adj_pos_as_str.slice! " "
+               adj_pos_as_str.slice! "]"
+               #Push current string position into string array
+               adj_pos_str_array.push(adj_pos_as_str)
+               #Check contents of position, if empty save to array of empty positions
+                colour = @board_hash[adj_pos_str_array[$i]]
+                if colour == :Empty
+                    empty_pos_str_array.push(adj_pos_str_array[$i])
+                end  
+               $i +=1
+            end
+
+            puts "All positions around initial piece in an array:"
+            puts adj_pos_str_array
+            puts "END"
+
+            puts "All empty positions around initial piece in an array:"
+            puts empty_pos_str_array
+            puts "END"
+
+
+            potential_neighbours = [
+                [empty_pos_str_array[0].chars.first,empty_pos_str_array[0].chars.last]
+            ]
+
+            return potential_neighbours           
+        end
+
+        return 
     end
 
     ####################################################################
@@ -338,3 +476,15 @@ end
 
 testBoard = Board.new
 p testBoard.action(['-','-'],[])
+
+#Testing count_opponent
+#p testBoard.count_opponent(:Black)
+#p testBoard.count_opponent(:White)
+#p testBoard.count_opponent(:Purple)
+
+#Testing get_neighbours
+puts "Testing get_neighbours"
+puts "Strong positions:"
+p testBoard.get_neighbours([3,1])
+puts "Weak positions:"
+p testBoard.get_neighbours([5,2])
