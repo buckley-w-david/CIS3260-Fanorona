@@ -17,22 +17,22 @@ class Player
     # Arguments:   new_name: The Name of the Player (String)
     #              newColour: The colour of the player (Symbol)
     ####################################################################
-    def initialize(newColour)
+    def initialize(colour, current_board)
 
     	# Player's Name
     	@name       = nil
 
     	# Player's Team colour
         # This will be a symbol of some sort
-    	@colour     = newColour
+    	@colour     = colour
 
         # The destination of the last move that the player made
         @last_location = [0,0]
         # Keeps track of if the first move in each turn has been made
-        @first_Move    = true
+        @first_move    = true
 
         # A copy of the Board class' current state
-        @current_board  = ""
+        @current_board  = current_board
     end
 
     ####################################################################
@@ -78,21 +78,31 @@ class Player
         newPos = gets.strip
         action = ""
 
-        while action != :N
+        while action == :N
            action = @current_board.action()
-           if @first_move
-               print "Initial position: "
-               initialPosition = gets.strip
-               print "New position: "
-               newPosition = gets.strip
+
+           case action
+           when :E
+
+               @first_move = true
+               @last_location = [0,0]
+
+           when :A, :W, :P
+
+               first_move = false
+               last_location = newPosition
+           else
            end
-        #    if var == :E
-        #       last_location = 0,0
-        #    else
-        #        last_location = lastLocation_ofMove
-        #        first_move = False
-        #
+           # if this is the first move, prompt for a starting position
+           if @first_move
+               initialPosition = prompt_for_postion("Initial position: ")
+           end
+
+           # prompt for a new position
+           newPosition = prompt_for_postion("New position: ")
         end
+
+        return action
     end
 
 
@@ -130,8 +140,3 @@ class Player
         end
     end
 end
-
-player = Player.new("Red")
-puts(player.prompt_for_postion("do it: "))
-# player.set_name()
-# player.get_name()
