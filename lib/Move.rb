@@ -7,9 +7,9 @@
 #              that the move will have, The Intersections class uses
 #              them to actually update the board.
 ####################################################################
+# require_relative 'Board'
 
 class Move
-
 
 
     ####################################################################
@@ -31,7 +31,7 @@ class Move
     #
     #
     # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos])
-    #              next       : A position that a piece is moving to.  (int array [xPos,yPos])
+    #              next_position_position       : A position that a piece is moving to.  (int array [xPos,yPos])
     #
     # Returns:     A list of all the pieces affected by a paika move in the form:
     #              [[xPos, yPos, newIntersectionState]... ]
@@ -43,7 +43,17 @@ class Move
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
     def paika(initial, next_position)
-    	
+
+        # append the initial position as empty
+        affected_pieces = Array.new
+        affected_pieces << [initial[0], initial[1], :E]
+
+        # retreive the colour of the piece being moved
+        initial_key = array_to_board_key(initial)
+        initial_colour = colour_to_symbol(@board_hash[initial_key])
+
+        # append the new position as the colour of the piece that was moved
+        affected_pieces << [next_position[0], next_position[1], initial_colour]
     end
 
     ####################################################################
@@ -53,7 +63,7 @@ class Move
     #
     #
     # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos])
-    #              next       : A position that a piece is moving to.  (int array [xPos,yPos])
+    #              next_position       : A position that a piece is moving to.  (int array [xPos,yPos])
     #
     # Returns:     A list of all the pieces affected by a withdrawl move in the form:
     #              [[xPos, yPos, newIntersectionState]... ]
@@ -66,6 +76,59 @@ class Move
     ####################################################################
     def withdrawl(initial, next_position)
 
+        # append the initial position as empty
+        affected_pieces = self.paika(initial, next_position)
+        # retreive the colour of the piece being moved
+        initial_key = array_to_board_key(initial)
+        initial_colour = colour_to_symbol(@board_hash[initial_key])
+
+        ### Taken from Board.find_direction ###
+        # need to find direction of movement as a positive, negative, or zero
+        # in order to calculate path of movement
+        pos_diff = [
+            next_position[0].to_i - initial[0].to_i,
+            next_position[1].to_i - initial[1].to_i
+        ]
+
+        # Need to scale the value down to eliminate extra cases to change. e.g. moving from position 2,2 to 0,0
+        move_transformation = []
+        move_transformation[0] = pos_diff[0] == 0 ? 0 : pos_diff[0]/pos_diff[0].abs
+        move_transformation[1] = pos_diff[1] == 0 ? 0 : pos_diff[1]/pos_diff[1].abs
+
+        # invert the move transformation in order to evaluate the opposite direction
+        withdrawl_move_transformation = []
+        withdrawl_move_transformation[0] = move_transformation[0] * -1
+        withdrawl_move_transformation[1] = move_transformation[1] * -1
+
+        # apply the transformation as a move
+        interim_position = []
+        interim_position[0] = initial[0] + withdrawl_move_transformation[0]
+        interim_position[1] = initial[1] + withdrawl_move_transformation[1]
+
+        # repeat transformation until an empty space or initial_colour is found
+        while (@board_hash[array_to_board_key(interim_position)])
+
+            # retrieve position from hash
+            transformed_state = colour_to_symbol(@board_hash[array_to_board_key(interim_position)])
+            # puts(array_to_board_key(interim_position) + "#{transformed_state}")
+
+            # check transformed positon state
+            if transformed_state != initial_colour
+
+                # append position if affected
+                affected_piece = [interim_position[0], interim_position[1], transformed_state]
+                affected_pieces << affected_piece
+            else
+                # position is not affected and the move can exit
+                return affected_pieces
+            end
+
+            # continue to apply transformation
+            interim_position[0] += withdrawl_move_transformation[0]
+            interim_position[1] += withdrawl_move_transformation[1]
+        end
+
+        return affected_pieces
     end
 
 
@@ -76,7 +139,7 @@ class Move
     #
     #
     # Arguments:   initial    : A postion that a piece is moving from. (int array [xPos,yPos])
-    #              next       : A position that a piece is moving to.  (int array [xPos,yPos])
+    #              next_position       : A position that a piece is moving to.  (int array [xPos,yPos])
     #
     # Returns:     A list of all the pieces affected by a approach move in the form:
     #              [[xPos, yPos, newIntersectionState]... ]
@@ -89,5 +152,73 @@ class Move
     ####################################################################
     def approach(initial, next_position)
 
+                # append the initial position as empty
+                affected_pieces = self.paika(initial, next_position)
+                # retreive the colour of the piece being moved
+                initial_key = array_to_board_key(initial)
+                initial_colour = colour_to_symbol(@board_hash[initial_key])
+
+                ### Taken from Board.find_direction ###
+                # need to find direction of movement as a positive, negative, or zero
+                # in order to calculate path of movement
+                pos_diff = [
+                    next_position[0].to_i - initial[0].to_i,
+                    next_position[1].to_i - initial[1].to_i
+                ]
+
+                # Need to scale the value down to eliminate extra cases to change. e.g. moving from position 2,2 to 0,0
+                move_transformation = []
+                move_transformation[0] = pos_diff[0] == 0 ? 0 : pos_diff[0]/pos_diff[0].abs
+                move_transformation[1] = pos_diff[1] == 0 ? 0 : pos_diff[1]/pos_diff[1].abs
+
+
+                # apply the transformation as a move
+                interim_position = []
+                interim_position[0] = next_position[0] + move_transformation[0]
+                interim_position[1] = next_position[1] + move_transformation[1]
+
+                # repeat transformation until an empty space or initial_colour is found
+                while (@board_hash[array_to_board_key(interim_position)])
+
+                    # retrieve position from hash
+                    transformed_state = colour_to_symbol(@board_hash[array_to_board_key(interim_position)])
+                    # puts(array_to_board_key(interim_position) + "#{transformed_state}")
+
+                    # check transformed positon state
+                    if transformed_state != initial_colour
+
+                        # append position if affected
+                        affected_piece = [interim_position[0], interim_position[1], transformed_state]
+                        affected_pieces << affected_piece
+                    else
+                        # position is not affected and the move can exit
+                        return affected_pieces
+                    end
+
+                    # continue to apply transformation
+                    interim_position[0] += move_transformation[0]
+                    interim_position[1] += move_transformation[1]
+                end
+
+                return affected_pieces
     end
+
+
+end
+
+def array_to_board_key(array)
+    board_key = "#{array[0]},#{array[1]}"
+end
+
+def colour_to_symbol(colour)
+    case colour
+    when :Black
+        return :B
+    when :White
+        return :W
+    when :Empty
+        return :E
+    end
+
+    return nil
 end
