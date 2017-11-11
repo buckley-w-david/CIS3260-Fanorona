@@ -11,7 +11,7 @@
 class Move
 
 
-
+load 'Board.rb'
     ####################################################################
     # Method: initialize
     #
@@ -31,7 +31,7 @@ class Move
     #
     #
     # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos])
-    #              next       : A position that a piece is moving to.  (int array [xPos,yPos])
+    #              next_position_position       : A position that a piece is moving to.  (int array [xPos,yPos])
     #
     # Returns:     A list of all the pieces affected by a paika move in the form:
     #              [[xPos, yPos, newIntersectionState]... ]
@@ -42,8 +42,10 @@ class Move
     #                    - "B" if the intersection now have a Black piece on it
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
-    def paika(initial, next)
+    def paika(initial, next_position)
 
+            initial_colour = @board.board_hash[array_to_board_key(initial)]
+            puts(initial_colour)
     end
 
     ####################################################################
@@ -53,7 +55,7 @@ class Move
     #
     #
     # Arguments:   initial    : A position that a piece is moving from. (int array [xPos,yPos])
-    #              next       : A position that a piece is moving to.  (int array [xPos,yPos])
+    #              next_position       : A position that a piece is moving to.  (int array [xPos,yPos])
     #
     # Returns:     A list of all the pieces affected by a withdrawl move in the form:
     #              [[xPos, yPos, newIntersectionState]... ]
@@ -64,7 +66,7 @@ class Move
     #                    - "B" if the intersection now have a Black piece on it
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
-    def withdrawl(initial, next)
+    def withdrawl(initial, next_position)
 
     end
 
@@ -76,7 +78,7 @@ class Move
     #
     #
     # Arguments:   initial    : A postion that a piece is moving from. (int array [xPos,yPos])
-    #              next       : A position that a piece is moving to.  (int array [xPos,yPos])
+    #              next_position       : A position that a piece is moving to.  (int array [xPos,yPos])
     #
     # Returns:     A list of all the pieces affected by a approach move in the form:
     #              [[xPos, yPos, newIntersectionState]... ]
@@ -90,4 +92,15 @@ class Move
     def approach()
 
     end
+
+
 end
+
+def array_to_board_key(array)
+    board_key = "#{array[0]},#{array[1]}"
+end
+
+newBoard = Board.new()
+newMove = Move.new(newBoard)
+newMove.paika([0,1], [0,2])
+puts(array_to_board_key([0,1]))
