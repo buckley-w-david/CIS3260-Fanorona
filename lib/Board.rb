@@ -491,6 +491,7 @@ class Board
         end
         new_x = new_position[0].to_i + pos_adjustment[0].to_i
         new_y = new_position[1].to_i + pos_adjustment[1].to_i
+
         adj_piece_in_dir = "#{new_x}, #{new_y}"
 
         initial_position_as_str = "#{initial_position[0]},#{initial_position[1]}"
