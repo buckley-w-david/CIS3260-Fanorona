@@ -473,21 +473,21 @@ class Board
         pos_adjustment = []
         case direction
         when :N
-            pos_adjustment =  [1,0]
+            pos_adjustment =  [0,1]
         when :NE
             pos_adjustment =  [1,1]
         when :E
-            pos_adjustment =  [0,1]
+            pos_adjustment =  [1,0]
         when :SE
-            pos_adjustment =  [-1,1]
+            pos_adjustment =  [1,-1]
         when :S
-            pos_adjustment =  [-1,0]
+            pos_adjustment =  [0,-1]
         when :SW
             pos_adjustment =  [-1,-1]
         when :W
-            pos_adjustment =  [0,-1]
+            pos_adjustment =  [-1,0]
         when :NW
-            pos_adjustment =  [1,-1]
+            pos_adjustment =  [-1,1]
         end
         new_x = new_position[0].to_i + pos_adjustment[0].to_i
         new_y = new_position[1].to_i + pos_adjustment[1].to_i
@@ -517,21 +517,21 @@ class Board
         pos_adjustment = []
         case direction
         when :N
-            pos_adjustment =  [1,0]
+            pos_adjustment =  [0,1]
         when :NE
             pos_adjustment =  [1,1]
         when :E
-            pos_adjustment =  [0,1]
+            pos_adjustment =  [1,0]
         when :SE
-            pos_adjustment =  [-1,1]
+            pos_adjustment =  [1,-1]
         when :S
-            pos_adjustment =  [-1,0]
+            pos_adjustment =  [0,-1]
         when :SW
             pos_adjustment =  [-1,-1]
         when :W
-            pos_adjustment =  [0,-1]
+            pos_adjustment =  [-1,0]
         when :NW
-            pos_adjustment =  [1,-1]
+            pos_adjustment =  [-1,1]
         end
 
         # if new_position is at an empty space  
