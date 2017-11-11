@@ -18,10 +18,10 @@ load 'Board.rb'
     # Description: Initializes a Move class.
     #
     ####################################################################
-    def initialize(board)
+    def initialize(current_board)
 
         # A current representation of  the board
-        @board_hash     = board
+        @board_hash     = current_board
     end
 
     ####################################################################
@@ -89,7 +89,7 @@ load 'Board.rb'
     #                    - "B" if the intersection now have a Black piece on it
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
-    def approach()
+    def approach(initial, next_position)
 
     end
 
