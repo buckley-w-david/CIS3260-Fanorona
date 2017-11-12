@@ -269,7 +269,7 @@ class Board
     #          False: Otherwise
     ####################################################################
     def validate_neighbours(new_position, initial_position)
-        var = get_neighbours()
+        var = get_neighbours(inital_position)
         # if newPosition is in var, move is valid
         return var.include?(new_position)
 
