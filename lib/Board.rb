@@ -46,7 +46,7 @@ class Board
             '7,2' => :Black,
 
             # white pieces
-            '0,0' => :White,
+            '0,1' => :White,
             '1,1' => :White,
             '2,1' => :White,
             '3,1' => :White,
@@ -55,6 +55,7 @@ class Board
             '6,1' => :White,
             '7,1' => :White,
             '8,1' => :White,
+            '0,0' => :White,
             '1,0' => :White,
             '2,0' => :White,
             '3,0' => :White,
@@ -160,7 +161,7 @@ class Board
             return :E
         end
 
-        if validate(new_position, initial_position) then 
+        if !validate(new_position, initial_position) then 
             return :N
         end
 
@@ -219,14 +220,14 @@ class Board
     # Returns:     True :  If a valid move is requsted
     #              False:  Otherwise
     ####################################################################
-    def validate(new_position, initial_position)
+    def validate(new_position, initial_position, colour)
 
         # Calls theses functions to validate the requested move:
         # validate_piece()
         # validate_neighbours()
         # validate_direction() 
 
-        if !validate_piece(initial_position) then
+        if !validate_piece(initial_position, colour) then
             return false;
         end
 
@@ -252,9 +253,10 @@ class Board
     # Returns:     True :  If the position selected holds a valid piece
     #              False:  Otherwise
     ####################################################################
-    def validate_piece(initial_position)
+    def validate_piece(initial_position, colour)
         pos_as_str = "#{initial_position[0]},#{initial_position[1]}"
-        return @board_hash[pos_as_str] == :Black || @board_hash[pos_as_str] == :White
+        # if the board hash is not initialized at pos_as_str then it returns nil
+        return @board_hash[pos_as_str] == colour
     end
 
     ####################################################################
@@ -269,7 +271,7 @@ class Board
     #          False: Otherwise
     ####################################################################
     def validate_neighbours(new_position, initial_position)
-        var = get_neighbours(inital_position)
+        var = get_neighbours(initial_position)
         # if newPosition is in var, move is valid
         return var.include?(new_position)
 
@@ -286,7 +288,7 @@ class Board
     ####################################################################
     def get_neighbours(initial_position)
         neighbours = []
-        #change incoming inital_position to a string
+        #change incoming initial_position to a string
         pos_as_str = "#{initial_position[0]},#{initial_position[1]}"
 
         #check if initial_position is a strong or weak position
@@ -398,10 +400,10 @@ class Board
     def validate_direction(new_position, initial_position)
         #calls find_direction()
         if find_direction(new_position, initial_position) == @last_direction
-            return true;
+            return false;
         end
 
-        return false;
+        return true;
     end
 
     ####################################################################
@@ -548,7 +550,7 @@ class Board
         end
 
         # if new_position is at an empty space  
-        # and if 1 space in the opposite direction of the inital_position is the opponents colour
+        # and if 1 space in the opposite direction of the initial_position is the opponents colour
         # it is a withdraw
         adj_x = initial_position[0] - pos_adjustment[0]
         adj_y = initial_position[1] - pos_adjustment[1]
@@ -685,5 +687,7 @@ test_board = Board.new
 #p test_board.capture_available(:Black)
 # p test_board.get_board_hash("4,2")
 # p test_board.get_board_hash("3,1")
-# p test_board.action([3,1],[4,2],:White)
-# p test_board.get_board_hash("3,1")
+# p test_board.validate_piece([4,2], :White)
+
+
+
