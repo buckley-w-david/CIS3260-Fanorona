@@ -43,7 +43,7 @@ class Player
     ####################################################################
     def set_name()
         # @name = Prompt for Name
-        print "Enter your name: "
+        print "[#{@colour}] Enter your name: "
         @name = gets.strip
 
     end
@@ -63,12 +63,12 @@ class Player
         # Check if first_move is true
         if @first_move
             #    Prompt the user for an inital position
-            initialPos = prompt_for_postion("Initial position: ")
+            initialPos = prompt_for_postion("[#{@name}] Initial position: ")
 
         end
 
         # prompt the user for a new position
-        newPos = prompt_for_postion("New position: ")
+        newPos = prompt_for_postion("[#{@name}] New position: ")
         action = :N
 
         while action == :N
@@ -88,11 +88,11 @@ class Player
            end
            # if this is the first move, prompt for a starting position
            if @first_move
-               initialPos = prompt_for_postion("Initial position: ")
+               initialPos = prompt_for_postion("[#{@name}] Initial position: ")
            end
 
            # prompt for a new position
-           newPos = prompt_for_postion("New position: ")
+           newPos = prompt_for_postion("[#{@name}] New position: ")
         end
 
         return action
