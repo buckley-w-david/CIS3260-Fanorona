@@ -71,10 +71,10 @@ class Player
         # prompt the user for a new position
         print "New position: "
         newPos = gets.strip
-        action = ""
+        action = :N
 
         while action == :N
-           action = @current_board.action()
+           action = @current_board.action(newPos, initialPos, @colour)
 
            case action
            when :E
@@ -84,27 +84,20 @@ class Player
 
            when :A, :W, :P
 
-               first_move = false
-               last_location = newPosition
+               @first_move = false
+               @last_location = newPosition
            else
            end
            # if this is the first move, prompt for a starting position
            if @first_move
-               initialPosition = prompt_for_postion("Initial position: ")
+               initialPos = prompt_for_postion("Initial position: ")
            end
 
            # prompt for a new position
-           newPosition = prompt_for_postion("New position: ")
+           newPos = prompt_for_postion("New position: ")
         end
 
         return action
-    end
-
-
-
-    # TODO: DELETE THIS METHOD :)
-    def get_name()
-        puts @name
     end
 
 
