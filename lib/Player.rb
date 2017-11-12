@@ -63,14 +63,12 @@ class Player
         # Check if first_move is true
         if @first_move
             #    Prompt the user for an inital position
-            print "Initial position: "
-            initialPos = gets.strip
+            initialPos = prompt_for_postion("Initial position: ")
 
         end
 
         # prompt the user for a new position
-        print "New position: "
-        newPos = gets.strip
+        newPos = prompt_for_postion("New position: ")
         action = :N
 
         while action == :N
