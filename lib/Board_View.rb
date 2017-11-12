@@ -12,7 +12,7 @@ class Board_View
     # Method: initialize
     #
     # Description: - Initializes the board_view
-    # 
+    #
     # Arguments:   - newBoard: A reference to an instance of the Board class
     #
     ####################################################################
@@ -44,7 +44,6 @@ class Board_View
 
                 # Print the pieces on the board
                 for j in 0..8 do
-                    
                     piece = current_board.get_board_hash("#{j},#{(i/2)}") 
                     if (piece == :black)
                         print "x"
@@ -53,7 +52,7 @@ class Board_View
                     else
                         print "+"
                     end
-                     
+
                     if (j != 8)
                         print "-"
                     end
@@ -66,7 +65,7 @@ class Board_View
                 for j in 0..8 do
                     # print a pair of connecting lines.
                     # Rows do not end with a diagnol
-                    # connecting line. Print only 
+                    # connecting line. Print only
                     # a "|" when that occurs
                     if (j != 8)
                         print "|#{connection}"
