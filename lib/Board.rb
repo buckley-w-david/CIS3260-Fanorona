@@ -161,7 +161,7 @@ class Board
             return :E
         end
 
-        if !validate(new_position, initial_position) then 
+        if !validate(new_position, initial_position, colour) then 
             return :N
         end
 
@@ -689,5 +689,5 @@ test_board = Board.new
 # p test_board.get_board_hash("3,1")
 # p test_board.validate_piece([4,2], :White)
 
-
+# p test_board.action([4,2], [3,2], :White)
 
