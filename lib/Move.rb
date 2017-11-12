@@ -43,7 +43,7 @@ class Move
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
     def paika(initial, next_position)
-
+    
         # append the initial position as empty
         affected_pieces = Array.new
         affected_pieces << [initial[0], initial[1], :Empty]
