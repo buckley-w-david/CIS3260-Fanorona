@@ -75,11 +75,11 @@ class Player
 
             # respond to action result
             case (action)
-            when :E
+            when :E, :P
                 @first_move = true
                 @last_location = [0,0]
                 return action
-            when :A, :W, :P
+            when :A, :W
                 @last_location = newPos
                 @first_move = false
                 return action
