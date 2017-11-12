@@ -506,7 +506,7 @@ class Board
         new_x = new_position[0].to_i + pos_adjustment[0].to_i
         new_y = new_position[1].to_i + pos_adjustment[1].to_i
 
-        adj_piece_in_dir = "#{new_x}, #{new_y}"
+        adj_piece_in_dir = "#{new_x},#{new_y}"
 
         initial_position_as_str = "#{initial_position[0]},#{initial_position[1]}"
         initial_position_color = @board_hash[initial_position_as_str]
@@ -689,5 +689,7 @@ test_board = Board.new
 # p test_board.get_board_hash("3,1")
 # p test_board.validate_piece([4,2], :White)
 
-# p test_board.action([4,2], [3,2], :White)
+# p test_board.action([4,2], [4,1], :White)
+# p test_board.move_type([4,1], [4,2], :White)
+# p test_board.get_board_hash("4,2")
 
