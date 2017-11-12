@@ -5,7 +5,7 @@
 # Description:  The game baord and it's functions.
 ####################################################################
 
-require_relative "move"
+require_relative "Move"
 require 'pp'
 
 class Board
@@ -46,7 +46,7 @@ class Board
             '7,2' => :Black,
 
             # white pieces
-            '0,0' => :White,
+            '0,1' => :White,
             '1,1' => :White,
             '2,1' => :White,
             '3,1' => :White,
@@ -129,6 +129,18 @@ class Board
         @affected_pieces = Move.new(@board_hash)
     end
 
+    def get_board_hash(key)
+        value = @board_hash[key]
+        if (value == nil)
+            return :invalid
+        end
+        return value
+    end
+
+    def get_affected_pieces()
+        return @get_affected_pieces
+    end
+
     ####################################################################
     # Method: action
     #
@@ -143,17 +155,17 @@ class Board
     #          - :P if the attempted move was a paika move
     #          - :N if the attempted move was not valid move
     ####################################################################
-    def action(new_position, initial_position)
+    def action(new_position, initial_position, colour)
         if new_position[0] == '-' && new_position[1] == '-' then
             @last_direction = nil;
             return :E
         end
 
-        if validate(new_position, initial_position) then 
+        if !validate(new_position, initial_position, colour) then 
             return :N
         end
 
-        move_type = move_type(new_position, initial_position)
+        move_type = move_type(new_position, initial_position, colour)
         move = Move.new(@board_hash)
         @affected_pieces = nil
         case move_type 
@@ -208,14 +220,14 @@ class Board
     # Returns:     True :  If a valid move is requsted
     #              False:  Otherwise
     ####################################################################
-    def validate(new_position, initial_position)
+    def validate(new_position, initial_position, colour)
 
         # Calls theses functions to validate the requested move:
         # validate_piece()
         # validate_neighbours()
         # validate_direction() 
 
-        if !validate_piece(initial_position) then
+        if !validate_piece(initial_position, colour) then
             return false;
         end
 
@@ -241,13 +253,14 @@ class Board
     # Returns:     True :  If the position selected holds a valid piece
     #              False:  Otherwise
     ####################################################################
-    def validate_piece(initial_position)
+    def validate_piece(initial_position, colour)
         pos_as_str = "#{initial_position[0]},#{initial_position[1]}"
-        return @board_hash[pos_as_str] == :Black || @board_hash[pos_as_str] == :White
+        # if the board hash is not initialized at pos_as_str then it returns nil
+        return @board_hash[pos_as_str] == colour
     end
 
     ####################################################################
-    # Method: validate_neighbors
+    # Method: validate_neighbours
     #
     # Description: Checks if the selected position is valid.
     #
@@ -258,7 +271,7 @@ class Board
     #          False: Otherwise
     ####################################################################
     def validate_neighbours(new_position, initial_position)
-        var = get_neighbours()
+        var = get_neighbours(initial_position)
         # if newPosition is in var, move is valid
         return var.include?(new_position)
 
@@ -275,7 +288,7 @@ class Board
     ####################################################################
     def get_neighbours(initial_position)
         neighbours = []
-        #change incoming inital_position to a string
+        #change incoming initial_position to a string
         pos_as_str = "#{initial_position[0]},#{initial_position[1]}"
 
         #check if initial_position is a strong or weak position
@@ -387,10 +400,10 @@ class Board
     def validate_direction(new_position, initial_position)
         #calls find_direction()
         if find_direction(new_position, initial_position) == @last_direction
-            return true;
+            return false;
         end
 
-        return false;
+        return true;
     end
 
     ####################################################################
@@ -446,12 +459,13 @@ class Board
     #
     # Returns: Symbol A,W,P,N
     ####################################################################
-    def move_type(new_position, initial_position)
+    def move_type(new_position, initial_position, colour)
+
         if is_approach(new_position, initial_position) then
             return :A
         elsif is_withdraw(new_position, initial_position) then
             return :W
-        elsif capture_available() then
+        elsif capture_available(colour) then
             return :N
         else 
             return :P
@@ -492,7 +506,7 @@ class Board
         new_x = new_position[0].to_i + pos_adjustment[0].to_i
         new_y = new_position[1].to_i + pos_adjustment[1].to_i
 
-        adj_piece_in_dir = "#{new_x}, #{new_y}"
+        adj_piece_in_dir = "#{new_x},#{new_y}"
 
         initial_position_as_str = "#{initial_position[0]},#{initial_position[1]}"
         initial_position_color = @board_hash[initial_position_as_str]
@@ -536,7 +550,7 @@ class Board
         end
 
         # if new_position is at an empty space  
-        # and if 1 space in the opposite direction of the inital_position is the opponents colour
+        # and if 1 space in the opposite direction of the initial_position is the opponents colour
         # it is a withdraw
         adj_x = initial_position[0] - pos_adjustment[0]
         adj_y = initial_position[1] - pos_adjustment[1]
@@ -648,7 +662,7 @@ class Board
     #              False:  Otherwise
     ####################################################################
     def set_last_direction(new_position, initial_position)
-        @last_direction = find_direction(new_position, last_direction)
+        @last_direction = find_direction(new_position, initial_position)
     end
 end
 
@@ -671,3 +685,11 @@ test_board = Board.new
 #puts "Testing capture_available"
 #p test_board.capture_available(:White)
 #p test_board.capture_available(:Black)
+# p test_board.get_board_hash("4,2")
+# p test_board.get_board_hash("3,1")
+# p test_board.validate_piece([4,2], :White)
+
+# p test_board.action([4,2], [4,1], :White)
+# p test_board.move_type([4,1], [4,2], :White)
+# p test_board.get_board_hash("4,2")
+
