@@ -511,8 +511,10 @@ class Board
 
         initial_position_as_str = "#{initial_position[0]},#{initial_position[1]}"
         initial_position_color = @board_hash[initial_position_as_str]
+        new_position_as_str = "#{new_position[0]},#{new_position[1]}"
+        
             
-        if @board_hash[adj_piece_in_dir] != initial_position_color && @board_hash[adj_piece_in_dir] != :Empty && @board_hash[adj_piece_in_dir] != nil then
+        if @board_hash[adj_piece_in_dir] != initial_position_color && @board_hash[adj_piece_in_dir] != :Empty && @board_hash[adj_piece_in_dir] != nil && @board_hash[new_position_as_str] == :Empty then
             return true
         end
 
@@ -560,7 +562,7 @@ class Board
         initial_position_as_str = "#{initial_position[0]},#{initial_position[1]}"
         initial_position_color = @board_hash[initial_position_as_str]
         new_position_as_str = "#{new_position[0]},#{new_position[1]}"
-
+        
         if @board_hash[check_pos_as_str] != :Empty && @board_hash[check_pos_as_str] != initial_position_color && 
             @board_hash[new_position_as_str] == :Empty
 
