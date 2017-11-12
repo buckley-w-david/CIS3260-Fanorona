@@ -128,6 +128,18 @@ class Board
         @affected_pieces = Move.new(@board_hash)
     end
 
+    def get_board_hash(key)
+        value = @board_hash[key]
+        if (value == nil)
+            return :invalid
+        end
+        return value
+    end
+
+    def get_affected_pieces()
+        return @get_affected_pieces
+    end
+
     ####################################################################
     # Method: action
     #
@@ -142,7 +154,7 @@ class Board
     #          - :P if the attempted move was a paika move
     #          - :N if the attempted move was not valid move
     ####################################################################
-    def action(new_position, initial_position)
+    def action(new_position, initial_position, colour)
         if new_position[0] == '-' && new_position[1] == '-' then
             @last_direction = nil;
             return :E
@@ -152,7 +164,7 @@ class Board
             return :N
         end
 
-        move_type = move_type(new_position, initial_position)
+        move_type = move_type(new_position, initial_position, colour)
         move = Move.new(@board_hash)
         @affected_pieces = nil
         case move_type 
@@ -648,7 +660,7 @@ class Board
     #              False:  Otherwise
     ####################################################################
     def set_last_direction(new_position, initial_position)
-        @last_direction = find_direction(new_position, last_direction)
+        @last_direction = find_direction(new_position, initial_position)
     end
 end
 
@@ -671,3 +683,7 @@ test_board = Board.new
 #puts "Testing capture_available"
 #p test_board.capture_available(:White)
 #p test_board.capture_available(:Black)
+# p test_board.get_board_hash("4,2")
+# p test_board.get_board_hash("3,1")
+# p test_board.action([3,1],[4,2],:White)
+# p test_board.get_board_hash("3,1")
