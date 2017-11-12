@@ -112,19 +112,33 @@ class Player
     def prompt_for_postion(prompt)
         # pattern to match input as int,int with optional space
         pattern = /^(\d+), ?(\d+)$/
+        endPattern = /^(-), ?(-)$/
+        position = []
 
-        # prompt user with provided message
-        print prompt
+        while position == []
 
-        # retrieve user input and strip trailing whitespace
-        input = gets.strip
+            # prompt user with provided message
+            print prompt
 
-        # if input is valid, get it into a usable form
-        if input.match(pattern)
-            # remove optional space
-            position = input.delete(' ')
-            # split on comma
-            position = position.split(',')
+            # retrieve user input and strip trailing whitespace
+            input = gets.strip
+
+            # if input is valid, get it into a usable form
+            if input.match(pattern)
+                # remove optional space
+                position = input.delete(' ')
+                # split on comma
+                position = position.split(',')
+                position[0] = position[0].to_i
+                position[1] = position[1].to_i
+
+            elsif input.match(endPattern)
+                position = ['-','-']
+            end
         end
+        return position
     end
 end
+
+newPlayer = Player.new(:Black, nil)
+newPlayer.prompt_for_postion("fuck meu p: ")
