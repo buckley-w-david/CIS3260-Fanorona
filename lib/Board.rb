@@ -5,7 +5,7 @@
 # Description:  The game baord and it's functions.
 ####################################################################
 
-require_relative "move"
+require_relative "Move"
 require 'pp'
 
 class Board
