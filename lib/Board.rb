@@ -176,7 +176,7 @@ class Board
                 @affected_pieces = move.approach(initial_position, new_position)
 
             when :W 
-                @affected_pieces = move.withdraw(initial_position, new_position)
+                @affected_pieces = move.withdrawl(initial_position, new_position)
 
             when :P 
                 @affected_pieces = move.paika(initial_position, new_position)
