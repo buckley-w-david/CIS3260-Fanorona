@@ -45,7 +45,8 @@ class Board_View
                 # Print the pieces on the board
                 for j in 0..8 do
                     
-                    piece = current_board.board_hash("#{j},#{(i/2)}") 
+                    #piece = current_board.board_hash("#{j},#{(i/2)}") 
+                    piece = 5
                     if (piece == :black)
                             print "x"
                     elsif (piece == :white)
@@ -64,6 +65,16 @@ class Board_View
             else
                 print "  "
                 for j in 0..8 do
+                    # print a pair of connecting lines.
+                    # Rows do not end with a diagnol
+                    # connecting line. Print only 
+                    # a "|" when that occurs
+                    if (j != 8)
+                        print "|#{connection}"
+                    else
+                        print "|"
+                    end
+
                     # Toggle the diagonal connecting lines.
                     # these lines do no toggle the final
                     # time that the are printed in a row.
@@ -73,16 +84,6 @@ class Board_View
                         else
                             connection = "\\"
                         end
-                    end
-
-                    # print a pair of connecting lines.
-                    # Rows do not end with a diagnol
-                    # connecting line. Print only 
-                    # a "|" when that occurs
-                    if (j != 8)
-                        print "|#{connection}"
-                    else
-                        print "|"
                     end
                 end
                 print "\n"
@@ -98,3 +99,6 @@ class Board_View
         print "\n"
     end
 end
+
+x = Board_View.new(5)
+x.update
