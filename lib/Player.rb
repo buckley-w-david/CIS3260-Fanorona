@@ -84,7 +84,7 @@ class Player
            when :A, :W, :P
 
                @first_move = false
-               @last_location = newPosition
+               @last_location = newPos
            else
            end
            # if this is the first move, prompt for a starting position
