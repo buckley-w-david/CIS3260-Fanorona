@@ -137,6 +137,3 @@ class Player
         return position
     end
 end
-
-newPlayer = Player.new(:Black, nil)
-newPlayer.prompt_for_postion("fuck meu p: ")
