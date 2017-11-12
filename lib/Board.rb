@@ -55,7 +55,6 @@ class Board
             '6,1' => :White,
             '7,1' => :White,
             '8,1' => :White,
-            '0,0' => :White,
             '1,0' => :White,
             '2,0' => :White,
             '3,0' => :White,
@@ -219,7 +218,7 @@ class Board
             return false;
         end
 
-        if !validate_neighbors(new_position, initial_position) then
+        if !validate_neighbours(new_position, initial_position) then
             return false;
         end
 
@@ -247,7 +246,7 @@ class Board
     end
 
     ####################################################################
-    # Method: validate_neighbors
+    # Method: validate_neighbours
     #
     # Description: Checks if the selected position is valid.
     #
@@ -446,12 +445,13 @@ class Board
     #
     # Returns: Symbol A,W,P,N
     ####################################################################
-    def move_type(new_position, initial_position)
+    def move_type(new_position, initial_position, colour)
+
         if is_approach(new_position, initial_position) then
             return :A
         elsif is_withdraw(new_position, initial_position) then
             return :W
-        elsif capture_available() then
+        elsif capture_available(colour) then
             return :N
         else 
             return :P
