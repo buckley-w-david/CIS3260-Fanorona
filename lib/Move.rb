@@ -46,11 +46,11 @@ class Move
 
         # append the initial position as empty
         affected_pieces = Array.new
-        affected_pieces << [initial[0], initial[1], :E]
+        affected_pieces << [initial[0], initial[1], :Empty]
 
         # retreive the colour of the piece being moved
         initial_key = array_to_board_key(initial)
-        initial_colour = colour_to_symbol(@board_hash[initial_key])
+        initial_colour = @board_hash[initial_key]
 
         # append the new position as the colour of the piece that was moved
         affected_pieces << [next_position[0], next_position[1], initial_colour]
@@ -80,7 +80,7 @@ class Move
         affected_pieces = self.paika(initial, next_position)
         # retreive the colour of the piece being moved
         initial_key = array_to_board_key(initial)
-        initial_colour = colour_to_symbol(@board_hash[initial_key])
+        initial_colour = @board_hash[initial_key]
 
         ### Taken from Board.find_direction ###
         # need to find direction of movement as a positive, negative, or zero
@@ -109,14 +109,14 @@ class Move
         while (@board_hash[array_to_board_key(interim_position)])
 
             # retrieve position from hash
-            transformed_state = colour_to_symbol(@board_hash[array_to_board_key(interim_position)])
+            transformed_state = @board_hash[array_to_board_key(interim_position)]
             # puts(array_to_board_key(interim_position) + "#{transformed_state}")
 
             # check transformed positon state
             if transformed_state != initial_colour
 
                 # append position if affected
-                affected_piece = [interim_position[0], interim_position[1], transformed_state]
+                affected_piece = [interim_position[0], interim_position[1], :Empty]
                 affected_pieces << affected_piece
             else
                 # position is not affected and the move can exit
@@ -156,7 +156,7 @@ class Move
                 affected_pieces = self.paika(initial, next_position)
                 # retreive the colour of the piece being moved
                 initial_key = array_to_board_key(initial)
-                initial_colour = colour_to_symbol(@board_hash[initial_key])
+                initial_colour = @board_hash[initial_key]
 
                 ### Taken from Board.find_direction ###
                 # need to find direction of movement as a positive, negative, or zero
@@ -181,14 +181,14 @@ class Move
                 while (@board_hash[array_to_board_key(interim_position)])
 
                     # retrieve position from hash
-                    transformed_state = colour_to_symbol(@board_hash[array_to_board_key(interim_position)])
+                    transformed_state = @board_hash[array_to_board_key(interim_position)]
                     # puts(array_to_board_key(interim_position) + "#{transformed_state}")
 
                     # check transformed positon state
                     if transformed_state != initial_colour
 
                         # append position if affected
-                        affected_piece = [interim_position[0], interim_position[1], transformed_state]
+                        affected_piece = [interim_position[0], interim_position[1], :Empty]
                         affected_pieces << affected_piece
                     else
                         # position is not affected and the move can exit
@@ -203,22 +203,8 @@ class Move
                 return affected_pieces
     end
 
-
 end
 
 def array_to_board_key(array)
     board_key = "#{array[0]},#{array[1]}"
-end
-
-def colour_to_symbol(colour)
-    case colour
-    when :Black
-        return :B
-    when :White
-        return :W
-    when :Empty
-        return :E
-    end
-
-    return nil
 end

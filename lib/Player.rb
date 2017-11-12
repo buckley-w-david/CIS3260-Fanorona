@@ -59,44 +59,32 @@ class Player
     ####################################################################
     def do_move()
 
+        loop do
+            # prompt or retreive for initial position
+            if @first_move
+                initialPos = prompt_for_postion("[#{@name}] Initial position: ")
+            else
+                initialPos = @last_location
+            end
 
-        # Check if first_move is true
-        if @first_move
-            #    Prompt the user for an inital position
-            initialPos = prompt_for_postion("[#{@name}] Initial position: ")
+            # prompt for new position
+            newPos = prompt_for_postion("[#{@name}] New position: ")
 
+            # complete action using positions
+            action = @current_board.action(newPos, initialPos, @colour)
+
+            # respond to action result
+            case (action)
+            when :E
+                @first_move = true
+                @last_location = [0,0]
+                return action
+            when :A, :W, :P
+                @last_location = newPos
+                @first_move = false
+                return action
+            end
         end
-
-        # prompt the user for a new position
-        newPos = prompt_for_postion("[#{@name}] New position: ")
-        action = :N
-
-        while action == :N
-           action = @current_board.action(newPos, initialPos, @colour)
-
-           case action
-           when :E
-
-               @first_move = true
-               @last_location = [0,0]
-               return action
-
-           when :A, :W, :P
-
-               @first_move = false
-               @last_location = newPos
-           else
-           end
-           # if this is the first move, prompt for a starting position
-           if @first_move
-               initialPos = prompt_for_postion("[#{@name}] Initial position: ")
-           end
-
-           # prompt for a new position
-           newPos = prompt_for_postion("[#{@name}] New position: ")
-        end
-
-        return action
     end
 
 
