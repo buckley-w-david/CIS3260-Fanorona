@@ -43,7 +43,7 @@ class Move
     #                    - "W" if the intersection now have a White piece on it
     ####################################################################
     def paika(initial, next_position)
-    
+
         # append the initial position as empty
         affected_pieces = Array.new
         affected_pieces << [initial[0], initial[1], :Empty]
@@ -113,7 +113,8 @@ class Move
             # puts(array_to_board_key(interim_position) + "#{transformed_state}")
 
             # check transformed positon state
-            if transformed_state != initial_colour
+            if transformed_state != initial_colour && transformed_state != :Empty
+
 
                 # append position if affected
                 affected_piece = [interim_position[0], interim_position[1], :Empty]
@@ -185,7 +186,7 @@ class Move
                     # puts(array_to_board_key(interim_position) + "#{transformed_state}")
 
                     # check transformed positon state
-                    if transformed_state != initial_colour
+                    if transformed_state != initial_colour && transformed_state != :Empty
 
                         # append position if affected
                         affected_piece = [interim_position[0], interim_position[1], :Empty]
