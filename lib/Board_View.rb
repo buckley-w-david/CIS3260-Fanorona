@@ -44,10 +44,10 @@ class Board_View
 
                 # Print the pieces on the board
                 for j in 0..8 do
-                    piece = current_board.get_board_hash("#{j},#{(i/2)}") 
-                    if (piece == :black)
+                    piece = @current_board.get_board_hash("#{j},#{(i/2)}") 
+                    if (piece == :Black)
                         print "x"
-                    elsif (piece == :white)
+                    elsif (piece == :White)
                         print "o"
                     else
                         print "+"
