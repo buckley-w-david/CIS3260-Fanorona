@@ -202,7 +202,7 @@ class Board
     def count_opponent(opponent_colour)
         #Check if opponents colour exists on the board
         #Returns true or false based on if opponent_colour is a value
-        return @board_hash.has_value?(opponent_colour)
+        return !@board_hash.has_value?(opponent_colour)
     end
 
 
