@@ -342,6 +342,7 @@ class Board
             [6,2],
             [8,2],
             [4,2],
+            [5,3],
             [6,4]
         ]
 
@@ -692,4 +693,3 @@ test_board = Board.new
 # p test_board.action([4,2], [4,1], :White)
 # p test_board.move_type([4,1], [4,2], :White)
 # p test_board.get_board_hash("4,2")
-
