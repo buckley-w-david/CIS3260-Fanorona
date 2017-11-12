@@ -511,8 +511,8 @@ class Board
 
         initial_position_as_str = "#{initial_position[0]},#{initial_position[1]}"
         initial_position_color = @board_hash[initial_position_as_str]
-
-        if @board_hash[adj_piece_in_dir] != initial_position_color && @board_hash[adj_piece_in_dir] != :Empty then
+            
+        if @board_hash[adj_piece_in_dir] != initial_position_color && @board_hash[adj_piece_in_dir] != :Empty && @board_hash[adj_piece_in_dir] != nil then
             return true
         end
 
