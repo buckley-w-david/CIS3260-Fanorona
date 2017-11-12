@@ -79,6 +79,7 @@ class Player
 
                @first_move = true
                @last_location = [0,0]
+               return action
 
            when :A, :W, :P
 
