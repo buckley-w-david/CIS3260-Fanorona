@@ -183,7 +183,7 @@ class Board
         end
 
         update_board(@affected_pieces)
-        set_last_direction(new_position, initial_position)
+        set_last_direction(new_position, initial_position, move_type)
         return move_type;
 
     end
@@ -664,11 +664,15 @@ class Board
     # Returns:     True :  If the direction changed
     #              False:  Otherwise
     ####################################################################
-    def set_last_direction(new_position, initial_position)
-        @last_direction = find_direction(new_position, initial_position)
+    def set_last_direction(new_position, initial_position, move)
+        if move == :P
+            last_direction = nil
+        else
+            @last_direction = find_direction(new_position, initial_position)
+        end
     end
-end
 
+end 
 test_board = Board.new
 #p test_board.action(['-','-'],[])
 
